@@ -30,11 +30,20 @@ public class GThread extends Thread{
 
     public void run(){
         int count=0;
-        String result;
+        String result = "课程名称：崩溃啦啦啦啦&";
         while (true){
-            result = doRequest();
+            try {
+                result = doRequest();
+            }catch (Exception e){
+                System.out.println("崩溃了");
+            }
+
             if (courseName == null) getCourseName(result);
-            result = result.substring(37,44);
+            try {
+                result = result.substring(37, 44);
+            }catch (Exception e){
+                System.out.println("崩溃了");
+            }
             if (result.indexOf("成功")>0){
                 System.out.println(courseName+"抢课结果："+result);
                 break;
@@ -51,8 +60,14 @@ public class GThread extends Thread{
     }
 
     private void getCourseName(String result){
-        courseName = result.substring(result.indexOf("课程名称")+4,result.indexOf("课程名称")+18);
-        courseName = courseName.substring(0,courseName.indexOf("&"));
+        //System.out.println(result);
+        try {
+            courseName = result.substring(result.indexOf("课程名称")+4,result.indexOf("课程名称")+18);
+            courseName = courseName.substring(0,courseName.indexOf("&"));
+        }catch (Exception e){
+            System.out.println("崩溃啦");
+        }
+
     }
 
     private void init() throws IOException {
